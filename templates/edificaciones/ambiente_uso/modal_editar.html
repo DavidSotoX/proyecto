@@ -1,0 +1,8 @@
+{% extends 'modal_editar.html' %}
+{% load crispy_forms_tags %}
+{% block modal-editar-body %}
+
+    {% include 'edificaciones/ambiente_uso/fragmento_informacion.html' %}
+    {% crispy form %}
+
+{% endblock %}

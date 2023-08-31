@@ -1,0 +1,142 @@
+{% extends 'layout_edificaciones.html' %}
+
+{% block titulo %}
+    Edificaciones - Ambientes
+{% endblock %}
+
+{% block estilos %}
+    {% load static %}
+    <link href="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block contenido %}
+    <div class="card card-box">
+        <div class="card-head">
+            <header>
+                Ambientes
+            </header>
+            <div class="tools">
+                {% if perms.edificaciones.add_ambiente %}
+                    <button data-url="{% url 'edificaciones:ambiente_crear'  %}"
+                       data-modal-titulo="Crear ambiente"
+                       data-size="modal-lg"
+                       class="btn btn-info btn-xs abrir-modal-editar">
+                        <i class="fa fa-plus-circle"></i> Nuevo
+                    </button>
+                {% endif %}
+
+                <a type="button" class='btn btn-primary' style="width: 250px" id="exportarBtn">
+                    <i class="fa fa-file-pdf-o"></i> Exportar
+                 </a>
+                 
+            </div>
+        </div>
+
+        <div class="card-body ">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Dependencia: </label>
+                        <select id="filtro_dependencia" class="form-control form-control-sm select2">
+                            <option value="" selected>--Todos--</option>
+                            {% for dependencia in dependencias %}
+                                <option value="{{ dependencia.id }}">
+                                    {{dependencia.nombre}} ({{dependencia.siglas}})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Campus: </label>
+                        <select id="filtro_campus" class="form-control form-control-sm select2">
+                            <option value="" selected>--Todos--</option>
+                            {% for item in campus %}
+                                <option value="{{ item.id }}">
+                                    {{item}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Bloque: </label>
+                        <select id="filtro_bloque" class="form-control form-control-sm select2">
+                            <option value="" selected>--Todos--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Piso: </label>
+                        <select id="filtro_numero_piso" class="form-control form-control-sm">
+                            <option value="" selected>--Todos--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Año: </label>
+                        <select id="filtro_año" class="form-control form-control-sm select2">
+                            <option value="" selected>--Todos--</option>
+                            {% for year in unique_years %}
+                                <option value="{{ year }}">{{ year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table full-ancho" id="tabla-ambientes">
+                                <thead>
+                                    <tr>
+                                        <th>Ambiente</th>
+                                        <th>Ubicación</th>
+                                        <th>Código</th>
+                                        <th>Dependencia</th>
+                                        <th>Última revisión</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var url_ambiente_lista = "{% url 'edificaciones:ambiente_lista' %}";
+        var url_ambiente_detalle = "{% url 'edificaciones:ambiente_detalle' 0 %}";
+        var url_campus_bloques = "{% url 'edificaciones:campus_bloques' 0 %}";
+        var url_bloque_pisos = "{% url 'edificaciones:bloque_pisos' 0 %}";
+        var url_anio_revisiones = "{% url 'edificaciones:ambiente_obtener_anios_revisiones'%}";
+        var ambienteXlsDetalladoUrl = "{% url 'edificaciones:ambiente_xls_detallado' %}";
+        
+    </script>
+
+    <script src="{% static 'js/js_cookie.js' %}"></script>
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-autonumeric/autoNumeric.min.js' %}"></script>
+
+    <script src="{% static 'js/edificaciones/campus_get_bloques.js' %}?v=1.1"></script>
+    <script src="{% static 'js/edificaciones/bloque_get_pisos.js' %}?v=1.1"></script>
+    <script src="{% static 'js/edificaciones/ambiente_lista.js' %}?v=1.1"></script>
+    <script src="{% static 'js/edificaciones/obtener_filtro.js' %}"></script>
+    <script src="{% static 'js/edificaciones/exportar.js' %}"></script>
+    <script src="{% static 'js/edificaciones/anio_ambientes.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'layout_edificaciones.html' %}
+
+{% block titulo %}
+Detalle del catálogo
+{% endblock %}
+
+{% block estilos %}
+    {{ block.super }}
+    {% load static %}
+    <link href="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{% block contenido %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="profile-sidebar">
+            {% include 'edificaciones/catalogo/fragmento_card_informacion.html' %}
+        </div>
+        <div class="profile-content">
+            <div class="card card-box">
+                <div class="card-head card-topline-aqua">
+                    <header>Lista de items</header>
+                    <div class="tools">
+                        {% if perms.core.add_catalogoitem %}
+                            <a data-url="{% url 'edificaciones:catalogoitem_crear' catalogo.id %}"
+                               data-modal-titulo="Nuevo item"
+                               data-size="modal-lg"
+                               class="btn btn-info btn-xs abrir-modal-editar">
+                                <i class="fa fa-plus-circle"></i> Nuevo item
+                            </a>
+                        {% endif %}
+                        <a class="btn btn-default btn-xs" href="{% url 'edificaciones:catalogo_lista' %}"><i class="fa fa-arrow-left"></i>Regresar</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% include 'edificaciones/catalogo/fragmento_lista_items.html' %}
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var url_catalogoitem_lista = "{% url 'edificaciones:catalogoitem_lista' catalogo.id %}"; 
+        var url_catalogoitem_editar = "{% url 'edificaciones:catalogoitem_editar' 0 %}";
+        var url_catalogoitem_eliminar = "{% url 'edificaciones:catalogoitem_eliminar' 0 %}";
+    </script>
+
+    <script src="{% static 'js/js_cookie.js' %}"></script>
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js' %}"></script>
+
+    <script src="{% static 'js/edificaciones/catalogo_detalle.js' %}?v=1.0"></script> 
+{% endblock %}

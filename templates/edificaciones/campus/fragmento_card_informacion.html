@@ -1,0 +1,41 @@
+<div class="card card-topline-aqua">
+    <div class="card-body no-padding height-9">
+
+        <div class="profile-usertitle">
+            <div class="profile-usertitle-name">Campus: {{ campus.nombre }} ({{ campus.codigo }})</div>
+            <div class="profile-usertitle-job">
+                {% if perms.edificaciones.change_campus %}
+                    <button title="Editar campus" class="btn btn-xs btn-success abrir-modal-editar"
+                            data-url="{% url 'edificaciones:campus_editar' campus.id %}"
+                            data-size="modal-lg"
+                            data-modal-titulo="Editar campus">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                {% endif %}
+
+                {% if perms.edificaciones.delete_campus %}
+                    <a title="Eliminar campus" class="btn btn-xs btn-danger"
+                       href="{% url 'edificaciones:campus_eliminar' campus.id %}">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <ul class="list-group list-group-unbordered">
+            <li class="list-group-item">
+                <b>Sede </b>
+                <span class="pull-right">
+                    {{ campus.sede.nombre }}
+                </span>
+            </li>
+            <li class="list-group-item">
+                <b>Cantón </b>
+                <span class="pull-right">{{ campus.canton.provincia.pais.nombre }}/{{ campus.canton.provincia.nombre }}/{{ campus.canton.nombre }}</span>
+            </li>
+            <li class="list-group-item">
+                <b>Nro. de bloques </b>
+                <span class="pull-right"><h5 class="label label-default">{{ campus.bloques.all|length }}</h5></span>
+            </li>
+        </ul>
+    </div>
+</div>

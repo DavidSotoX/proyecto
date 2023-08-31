@@ -1,0 +1,85 @@
+<fieldset class="fieldset" style="height: 95%">
+    <legend class="text-primary">
+        <h5>
+            <i class="fa fa-home"></i> Información general del espacio físico
+            {% if puede_editar %}
+            <button data-url="{% url 'edificaciones:ambiente_uso_editar' ambienteuso.id %}"
+                    title="Editar uso y dimensiones del espacio físico"
+                    data-modal-titulo="Editar uso y dimensiones del espacio físico"
+                    data-size="modal-lg"
+                    class="btn btn-info btn-xs abrir-modal-editar">
+                <i class="fa fa-edit"></i> Editar
+            </button>
+            {% endif %}
+        </h5>
+    </legend>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Código anterior:</th>
+                        <td colspan="3"><h5 class="text-primary">{{ ambienteuso.codigo_anterior }}</h5></td>
+                    </tr>
+                    <tr>
+                        <th>Disponibilidad del código sobre la puerta:</th>
+                        <td colspan="3">
+                            <h5>{{ ambienteuso.codigo|yesno:"Si,No,"}}</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Código propuesto:</th>
+                        <td colspan="3"><h5>{{ ambienteuso.codigo }}</h5></td>
+                    </tr>
+                    <tr>
+                        <th>Código final:</th>
+                        <td colspan="3"><h5 class="text-primary">{{ ambienteuso.codigo_display }}</h5></td>
+                    </tr>
+                    <tr>
+                        <th>Uso del ambiente:</th>
+                        <td colspan="3">{{ ambienteuso.uso_tipo.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Dependencia:</th>
+                        <td colspan="3">{{ ambienteuso.dependencia }}</td>
+                    </tr>
+                    <tr>
+                        <th>Observación general:</th>
+                        <td colspan="3">{{ ambienteuso.observacion|default:'' }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <h5>Dimensiones del espacio físico</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Area:</th>
+                        <td>{{ ambienteuso.area }} m2</td>
+                        <th>Alto del piso al cielo raso:</th>
+                        <td>{{ ambienteuso.alto }} m</td>
+                    </tr>
+                    <tr>
+                        <th>Ancho:</th>
+                        <td>{{ ambienteuso.ancho }} m</td>
+                        <th>Largo o fondo:</th>
+                        <td>{{ ambienteuso.largo }} m</td>
+                    </tr>
+                    {% if aula %}
+                        <tr>
+                            <th>Distancia de primera fila a la pizarra (Z):</th>
+                            <td>{{ aula.distancia_primera_fila }} m</td>
+                            <th>Área asignada por alumno (As):</th>
+                            <td>{{ aula.area_por_alumno }} m</td>
+                        </tr>
+                        <tr>
+                            <th>Capacidad Teórica de Alumnos (Ca):</th>
+                            <td colspan="3">{{ aula.capacidad_alumnos }} alumnos</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</fieldset>

@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th><h5>Ubicación:</h5></th>
+                        <td>{{ ambienteuso.ambiente.get_ubicacion }}</td>
+                    </tr>
+
+                    <tr>
+                        <th><h5>Ambiente verificado al {{ambienteuso.revision_fecha|date:'d-m-Y'}}:</h5></th>
+                        <td>{{ ambienteuso.usuario.persona.get_nombres_completos }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

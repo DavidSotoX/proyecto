@@ -1,0 +1,108 @@
+{% load edificaciones_tags %}
+<fieldset class="fieldset">
+    <legend class="text-primary">
+        <h5>
+            <i class="fa fa-cog"></i> Caracteristicas del espacio físico
+        </h5>
+    </legend>
+    <div class="row">
+        <div class="col-md-12">
+            {% if recursos %}
+                <ul class="nav nav-tabs" role="tablist">
+                  {% for recurso in recursos %}
+                       <li class="nav-item">
+                           <a class="nav-link {%if forloop.first %} active {% endif %}" id="link_{{recurso.id}}"
+                              data-toggle="tab" href="#tab_{{recurso.id}}"
+                              role="tab" >{{recurso.nombre}}</a>
+                       </li>
+                   {% endfor %}
+                </ul>
+
+                <div class="tab-content">
+                    {% for recurso in recursos %}
+                        <div class="tab-pane fade show {%if forloop.first %} active {% endif %}"
+                            id="tab_{{recurso.id}}"
+                            role="tabpanel">
+
+                            <form id="form_{{recurso.id}}" method="post" action="{% url 'edificaciones:ambiente_uso_recursos_guardar' ambienteuso.id recurso.id %}" class="auto-validate">
+                                {% csrf_token %}
+                                <div class="row" style="padding-left: 20px; padding-right: 20px">
+                                    {% get_recurso_items ambienteuso recurso puede_editar as recurso_items %}
+                                    {% for recurso_item in recurso_items %}
+
+                                        {% get_ambiente_item ambienteuso recurso_item as ambiente_item %}
+                                        <div class="form-group col-md-6">
+                                            {% if puede_editar %}
+                                                <label>{{recurso_item.nombre}} <span class="text-danger">(*)</span></label>
+
+                                                {% if recurso_item.tipo == recurso_item.TIPO_TEXTO %}
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="text_{{recurso_item.id}}"
+                                                           name="recurso_item|{{recurso_item.id}}"
+                                                           maxlength="1000"
+                                                           {% if ambiente_item %} value="{{ambiente_item.valor}}" {% endif %}
+                                                           placeholder="Ejemplo: Ingreso solo texto" required>
+
+                                                {% elif recurso_item.tipo == recurso_item.TIPO_NUMERO %}
+                                                    <input type="number"
+                                                           class="form-control"
+                                                           id="number_{{recurso_item.id}}"
+                                                           name="recurso_item|{{recurso_item.id}}"
+                                                           min="0" step="1"
+                                                           {% if ambiente_item %} value={{ambiente_item.valor}} {% endif %}
+                                                           placeholder="Ejemplo: 12345" required>
+
+                                                {% elif recurso_item.tipo == recurso_item.TIPO_BOOLEANO %}
+                                                    <select class="form-control" id="booleano_{{recurso_item.id}}" name="recurso_item|{{recurso_item.id}}" required>
+                                                        <option value="">---Seleccione---</option>
+                                                        <option value="Si" {% if ambiente_item and ambiente_item.valor == "Si" %}selected{% endif %}>Si</option>
+                                                        <option value="No" {% if ambiente_item and ambiente_item.valor == "No" %}selected{% endif %}>No</option>
+                                                    </select>
+
+                                                {% else %}
+                                                    {% recurso_item_catalogo_items recurso_item as catalogo_items %}
+                                                    <select class="form-control" id="catalogo_{{recurso_item.id}}" name="recurso_item|{{recurso_item.id}}" required>
+                                                        <option value="">---Seleccione---</option>
+                                                        {% for catalogo_item in catalogo_items %}
+                                                            <option value="{{catalogo_item.nombre}}" {% if ambiente_item and catalogo_item.id == ambiente_item.valor|default_if_none:0|add:0 %}selected{% endif %}>
+                                                                {{catalogo_item.nombre}}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                {% endif %}
+
+                                            {% else %}
+                                                <h5><i class="fa fa-arrow-right"></i> {{recurso_item.nombre}}</h5>
+                                                <div style="padding-top: 10px" class="text-justify">
+                                                    {% if ambiente_item %}
+                                                        {{ ambiente_item.get_valor }}
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% empty %}
+                                        <div class="alert alert-danger">No existe items para "{{recurso.nombre}}"</div>
+                                    {% endfor %}
+
+                                    {% if puede_editar and recurso_items %}
+                                        <div class="col-md-12 text-center">
+                                            <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> GUARDAR {{recurso.nombre|upper}}</button>
+                                            <br><br>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-warning"><h5>No existe información a mostrar</h5></div>
+            {% endif %}
+        </div>
+    </div>
+</fieldset>
+
+
+
+

@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Filtro por tipo: </label>
+            <select id="filtro_tipo" class="form-control form-control-sm">
+                <option value="" selected>--Todos--</option>
+                {% for item in CHOICE_TIPO %}
+                    <option value="{{ item.0 }}">{{ item.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+            <div class="table-responsive">
+                <table class="table full-ancho" id="tabla-recursoitem">
+                    <thead>
+                        <tr>
+                            <th>Orden</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Catálogo</th>
+                            <th>Activo</th>
+                            <th class="tabla-accion">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

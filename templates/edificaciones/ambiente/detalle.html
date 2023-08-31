@@ -1,0 +1,62 @@
+{% extends 'layout_edificaciones.html' %}
+
+{% block titulo %}
+Detalle del campus
+{% endblock %}
+
+{% block estilos %}
+    {% load static %}
+    <link href="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block contenido %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="profile-sidebar">
+            {% include 'edificaciones/ambiente/fragmento_card_informacion.html' %}
+        </div>
+        <div class="profile-content">
+
+            <div class="card card-box">
+
+                <div class="card-head card-topline-aqua" style="border-bottom: 0px">
+                    <header>Evaluaciones del ambiente</header>
+                    <div class="tools">
+                        {% if puede_editar %}
+                            <button data-url="{% url 'edificaciones:ambiente_uso_crear' ambiente.id %}"
+                               data-modal-titulo="Nueva evaluación del ambiente"
+                               data-size="modal-lg"
+                               class="btn btn-info btn-xs abrir-modal-editar">
+                                <i class="fa fa-plus-circle"></i> Nueva evaluación
+                            </button>
+                        {% endif %}
+
+                        <a class="btn btn-default btn-xs" href="{% url 'edificaciones:ambiente_lista' %}"><i class="fa fa-arrow-left"></i>Regresar</a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    {% include 'edificaciones/ambiente_uso/fragmento_lista.html' %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    {% load static %}
+    <script>
+        var url_ambiente_uso_lista = "{% url 'edificaciones:ambiente_uso_lista' ambiente.id %}";
+        var url_ambiente_uso_detalle = "{% url 'edificaciones:ambiente_uso_detalle' 0 %}";
+        var url_bloque_pisos = "{% url 'edificaciones:bloque_pisos' 0 %}";
+    </script>
+
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-autonumeric/autoNumeric.min.js' %}"></script>
+
+    <script src="{% static 'js/edificaciones/ambiente_detalle.js' %}?v=1.1"></script>
+    <script src="{% static 'js/edificaciones/bloque_get_pisos.js' %}?v=1.1"></script>
+{% endblock %}

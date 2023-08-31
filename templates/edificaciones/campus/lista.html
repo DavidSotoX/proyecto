@@ -1,0 +1,82 @@
+{% extends 'layout_edificaciones.html' %}
+
+{% block titulo %}
+    Edificaciones - Campus
+{% endblock %}
+
+{% block estilos %}
+    {% load static %}
+    <link href="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block contenido %}
+    <div class="card card-box">
+        <div class="card-head">
+            <header>
+                Campus
+            </header>
+            <div class="tools">
+                {% if perms.edificaciones.add_sede %}
+                    <a data-url="{% url 'edificaciones:campus_crear' %}"
+                       data-modal-titulo="Crear campus"
+                       data-size="modal-lg"
+                       class="btn btn-info btn-xs abrir-modal-editar">
+                        <i class="fa fa-plus-circle"></i> Nuevo
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card-body ">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Sedes: </label>
+                        <select id="filtro_sede" class="form-control form-control-sm select2">
+                            <option value="" selected>--Todos--</option>
+                            {% for item in sedes %}
+                                <option value="{{ item.id }}">
+                                    {{ item }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table full-ancho" id="tabla-campus">
+                                <thead>
+                                    <tr>
+                                        <th>Sede</th>
+                                        <th>Campus</th>
+                                        <th>Dirección</th>
+                                        <th>Número de bloques</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var url_campus_lista = "{% url 'edificaciones:campus_lista' %}";
+        var url_campus_detalle = "{% url 'edificaciones:campus_detalle' 0 %}";
+    </script>
+
+    <script src="{% static 'js/js_cookie.js' %}"></script>
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js' %}"></script>
+
+    <script src="{% static 'js/edificaciones/campus_lista.js' %}?v=1.1"></script>
+{% endblock %}

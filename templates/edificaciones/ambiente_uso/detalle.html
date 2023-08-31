@@ -1,0 +1,51 @@
+{% extends 'layout_edificaciones.html' %}
+
+{% block titulo %}
+Evaluación del ambiente
+{% endblock %}
+
+{% block contenido %}
+<div class="card card-box">
+    <div class="card-head card-topline-aqua" style="border-bottom: 0px">
+        <header>Evaluación del ambiente ({{ambienteuso.ambiente.revision_anio_actual}}): {{ambienteuso.ambiente.descripcion}}</header>
+        <div class="tools">
+
+            {% if puede_eliminar %}
+                <a title="Eliminar evaluación" class="btn btn-xs btn-danger"
+                   href="{% url 'edificaciones:ambiente_uso_eliminar' ambienteuso.id %}">
+                    <i class="fa fa-trash"></i> Eliminar
+                </a>
+            {% endif %}
+
+            <a class="btn btn-default btn-xs" href="{% url 'edificaciones:ambiente_detalle' ambienteuso.ambiente.id %}"><i class="fa fa-arrow-left"></i>Regresar</a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        {% include 'edificaciones/ambiente_uso/fragmento_informacion.html' %}
+
+        <div class="row">
+            <div class="col-md-6">
+                {% include 'edificaciones/ambiente_uso/fragmento_editar_informacion.html' %}
+            </div>
+            <div class="col-md-6">
+                 {% include 'edificaciones/ambiente_uso/fragmento_editar_subambientes.html' %}
+            </div>
+        </div>
+        
+        {% include 'edificaciones/ambiente_uso/fragmento_editar_recursos.html' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    {% load static %}
+    <script>
+        var url_bloque_pisos = "{% url 'edificaciones:bloque_pisos' 0 %}";
+    </script>
+
+    <script src="{% static 'plugins/jquery-autonumeric/autoNumeric.min.js' %}"></script>
+
+    <script src="{% static 'js/edificaciones/bloque_get_pisos.js' %}?v=1.1"></script>
+    <script src="{% static 'js/edificaciones/ambiente_uso_detalle.js' %}?v=1.1"></script>
+{% endblock %}

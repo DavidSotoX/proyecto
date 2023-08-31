@@ -1,0 +1,80 @@
+{% extends 'layout_edificaciones.html' %}
+
+{% block titulo %}
+    Edificaciones - Catálogos
+{% endblock %}
+
+{% block estilos %}
+    {{ block.super }}
+    {% load static %}
+    <link href="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block contenido %}
+    <div class="card card-box">
+        <div class="card-head">
+            <header>
+                Catálogos
+            </header>
+            <div class="tools">
+                {% if perms.core.add_catalogo %}
+                    <a data-url="{% url 'edificaciones:catalogo_crear' %}"
+                       data-modal-titulo="Crear catálogo"
+                       data-size="modal-lg"
+                       class="btn btn-info btn-xs abrir-modal-editar">
+                        <i class="fa fa-plus-circle"></i> Nuevo
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body ">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Filtro por activo: </label>
+                        <select id="filtro_activo" class="form-control form-control-sm">
+                            <option value="" selected>--Todos--</option>
+                            <option value="true">Activos</option>
+                            <option value="false">Inactivos</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+                       
+            <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table full-ancho" id="tabla-catalogo">
+                                <thead>
+                                    <tr>
+                                        <th>Orden</th>
+                                        <th>Nombre</th>
+                                        <th>Código</th>
+                                        <th>Activo</th>
+                                        <th>Numero Items</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var url_catalogo_lista = "{% url 'edificaciones:catalogo_lista' %}";
+        var url_catalogo_detalle = "{% url 'edificaciones:catalogo_detalle' 0 %}";
+    </script>
+
+    <script src="{% static 'js/js_cookie.js' %}"></script>
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js' %}"></script>
+
+    <script src="{% static 'js/edificaciones/catalogo_lista.js' %}?v=1.1"></script>
+{% endblock %}

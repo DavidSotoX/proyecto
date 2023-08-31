@@ -1,0 +1,60 @@
+{% extends 'layout_edificaciones.html' %}
+
+{% block titulo %}
+Detalle del campus
+{% endblock %}
+
+{% block estilos %}
+    {% load static %}
+    <link href="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{% block contenido %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="profile-sidebar">
+            {% include 'edificaciones/campus/fragmento_card_informacion.html' %}
+        </div>
+        <div class="profile-content">
+
+            <div class="card card-box">
+
+                <div class="card-head card-topline-aqua">
+                    <header>Lista de bloques</header>
+                    <div class="tools">
+                        {% if perms.edificaciones.add_bloque %}
+                            <a data-url="{% url 'edificaciones:bloque_crear' campus.id %}"
+                               data-modal-titulo="Nuevo bloque"
+                               data-size="modal-lg"
+                               class="btn btn-info btn-xs abrir-modal-editar">
+                                <i class="fa fa-plus-circle"></i> Nuevo bloque
+                            </a>
+                        {% endif %}
+
+                        <a class="btn btn-default btn-xs" href="{% url 'edificaciones:campus_lista' %}"><i class="fa fa-arrow-left"></i>Regresar</a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    {% include 'edificaciones/bloque/fragmento_lista.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var url_bloque_lista = "{% url 'edificaciones:bloque_lista' campus.id %}";
+        var url_bloque_editar = "{% url 'edificaciones:bloque_editar' 0 %}";
+        var url_bloque_eliminar = "{% url 'edificaciones:bloque_eliminar' 0 %}";
+    </script>
+
+    <script src="{% static 'js/js_cookie.js' %}"></script>
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js' %}"></script>
+
+    <script src="{% static 'js/edificaciones/campus_detalle.js' %}?v=1.0"></script>
+{% endblock %}

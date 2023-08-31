@@ -1,0 +1,73 @@
+{% extends 'layout_edificaciones.html' %}
+
+{% block titulo %}
+Detalle del recurso
+{% endblock %}
+
+{% block estilos %}
+     {{ block.super }}
+    {% load static %}
+    <link href="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{% block contenido %}
+
+<div class="card card-box">
+    <div class="card-head">
+        <header>Recurso: {{ recurso.orden }}. {{ recurso.nombre }} 
+            {% if recurso.activo %}
+                <span class="label label-success">ACTIVO</span>
+            {% else %}
+                <span class="label label-danger">Inactivo</span>
+            {% endif %}
+        </header>
+        <div class="tools">
+            {% if perms.edificaciones.add_recursoitem %}
+                <a data-url="{% url 'edificaciones:recursoitem_crear' recurso.id %}"
+                   data-modal-titulo="Nuevo item"
+                   data-size="modal-lg"
+                   class="btn btn-info btn-xs abrir-modal-editar">
+                    <i class="fa fa-plus-circle"></i> Nuevo item
+                </a>
+            {% endif %}
+
+            {% if perms.edificaciones.change_recurso %}
+                <button title="Editar recurso" class="btn btn-xs btn-success abrir-modal-editar"
+                        data-url="{% url 'edificaciones:recurso_editar' recurso.id %}"
+                        data-size="modal-lg"
+                        data-modal-titulo="Editar recurso">
+                    <i class="fa fa-edit"></i>Editar
+                </button>
+            {% endif %}
+
+            {% if perms.edificaciones.delete_recurso %}
+                <a title="Eliminar recurso" class="btn btn-xs btn-danger"
+                   href="{% url 'edificaciones:recurso_eliminar' recurso.id %}">
+                    <i class="fa fa-trash"></i>
+                    Eliminar
+                </a>
+            {% endif %}
+
+            <a class="btn btn-default btn-xs" href="{% url 'edificaciones:recurso_lista' %}"><i class="fa fa-arrow-left"></i>Regresar</a>
+        </div>
+    </div>
+    <div class="card-body ">
+        {% include 'edificaciones/recurso/fragmento_lista_items.html' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var url_recursoitem_lista = "{% url 'edificaciones:recursoitem_lista' recurso.id %}"; 
+        var url_recursoitem_editar = "{% url 'edificaciones:recursoitem_editar' 0 %}";
+        var url_recursoitem_eliminar = "{% url 'edificaciones:recursoitem_eliminar' 0 %}";    
+    </script>
+
+    <script src="{% static 'js/js_cookie.js' %}"></script>
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js' %}"></script>
+
+    <script src="{% static 'js/edificaciones/recurso_detalle.js' %}?v=1.0"></script> 
+{% endblock %}

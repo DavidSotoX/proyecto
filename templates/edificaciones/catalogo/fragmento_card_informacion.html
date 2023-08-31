@@ -1,0 +1,56 @@
+<div class="card card-topline-aqua">
+    <div class="card-body no-padding height-9">
+
+        <div class="profile-usertitle">
+            <div class="profile-usertitle-name">{{ catalogo.nombre }}</div>
+            <div class="profile-usertitle-job">Catálogo</div>
+            <div class="profile-usertitle-job">
+                {% if perms.core.change_catalogo %}
+                    <button title="Editar catálogo" class="btn btn-xs btn-success abrir-modal-editar"
+                            data-url="{% url 'edificaciones:catalogo_editar' catalogo.id %}"
+                            data-size="modal-lg"
+                            data-modal-titulo="Editar catalogo">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                {% endif %}
+
+                {% if perms.core.delete_catalogo %}
+                    <a title="Eliminar catálogo" class="btn btn-xs btn-danger"
+                       href="{% url 'edificaciones:catalogo_eliminar' catalogo.id %}">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <ul class="list-group list-group-unbordered">
+            <li class="list-group-item">
+                <b>Orden </b>
+                <span class="pull-right">
+                    {{ catalogo.orden }}
+                </span>
+            </li>
+            <li class="list-group-item">
+                <b>Activo </b>
+                <span class="pull-right">
+                    {% if catalogo.activo %}
+                        Si
+                    {% else %}
+                        No
+                    {% endif %}
+                </span>
+            </li>
+            <li class="list-group-item">
+                <b>Código </b>
+                <span class="pull-right">
+                    {{ catalogo.codigo }}
+                </span>
+            </li>
+            <li class="list-group-item">
+                <b>Descripción </b>
+                <span class="pull-right">
+                    {{ catalogo.descripcion }}
+                </span>
+            </li>
+        </ul> 
+    </div>
+</div>

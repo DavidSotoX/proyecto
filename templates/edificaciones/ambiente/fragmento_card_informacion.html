@@ -1,0 +1,90 @@
+<div class="card card-topline-aqua">
+    <div class="card-body no-padding height-9">
+
+        <div class="profile-usertitle">
+            <div class="profile-usertitle-name">Ambiente{% if ambiente.codigo_actual %}: {{ ambiente.codigo_actual }}{% endif %}</div>
+            <div class="profile-usertitle-job">{{ ambiente.descripcion }}</div>
+            <div class="profile-usertitle-job">
+                {% if puede_editar %}
+                    <button title="Editar ambiente" class="btn btn-xs btn-success abrir-modal-editar"
+                            data-url="{% url 'edificaciones:ambiente_editar' ambiente.id %}"
+                            data-size="modal-lg"
+                            data-modal-titulo="Editar ambiente">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                {% endif %}
+
+                {% if puede_eliminar %}
+                    <a title="Eliminar ambiente" class="btn btn-xs btn-danger"
+                       href="{% url 'edificaciones:ambiente_eliminar' ambiente.id %}">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <ul class="list-group list-group-unbordered">
+            <li class="list-group-item">
+                <b>Sede </b>
+                <span class="pull-right">
+                    {{ ambiente.bloque.campus.sede.nombre }}
+                </span>
+            </li>
+            <li class="list-group-item">
+                <b>Campus </b>
+                <span class="pull-right">
+                    {{ ambiente.bloque.campus.nombre }} ({{ ambiente.bloque.campus.codigo }})
+                </span>
+            </li>
+            <li class="list-group-item">
+                <b>Bloque </b>
+                <span class="pull-right">
+                    {{ ambiente.bloque.numero }}
+                </span>
+            </li>
+            <li class="list-group-item">
+                <b>Piso </b>
+                <span class="pull-right">
+                    {{ ambiente.numero_piso }}
+                </span>
+            </li>
+
+            {% if ambiente.dependencia_actual %}
+            <li class="list-group-item">
+                <b>Dependencia actual</b>
+                <span class="pull-right" title=" {{ ambiente.dependencia_actual.nombre }}">
+                    {{ ambiente.dependencia_actual.siglas }}
+                </span>
+            </li>
+            {% endif %}
+
+            {% if ambiente.revision_anio_actual %}
+            <li class="list-group-item">
+                <b>Útima revisión</b>
+                <span class="pull-right">
+                    {{ ambiente.revision_anio_actual }}
+                </span>
+            </li>
+            {% endif %}
+
+            {% if ambiente.uso_finicio %}
+                <li class="list-group-item">
+                    <b>Fecha inicio uso </b>
+                    <span class="pull-right">
+                        {{ ambiente.uso_finicio }}
+                    </span>
+                </li>
+            {% endif %}
+
+            {% if ambiente.uso_ffin %}
+                <li class="list-group-item">
+                    <b>Fecha fin uso</b>
+                    <span class="pull-right">
+                        {{ ambiente.uso_ffin }}
+                    </span>
+                </li>
+            {% endif %}
+
+
+        </ul>
+    </div>
+</div>

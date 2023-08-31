@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block estilos %}
+    <style>
+        small {
+            font-size: 100% !important;
+        }
+    </style>
+{% endblock %}
+
+{% block sidebar %}
+    {{ bloc.super }}
+    {% block funcionalidades_modulo %}
+        {% include 'fragmentos/sidebar_edificaciones.html' %}
+    {% endblock funcionalidades_modulo %}
+{% endblock sidebar %}
+
+{% block header %}
+    {% include 'fragmentos/header_edificaciones.html' %}
+{% endblock header %}
+
+
+{% block header_brand_color %}logo-blue{% endblock %}

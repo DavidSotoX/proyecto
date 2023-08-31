@@ -1,0 +1,78 @@
+{% extends 'layout_edificaciones.html' %}
+
+{% block titulo %}
+    Edificaciones - Recurso
+{% endblock %}
+
+{% block estilos %}
+     {{ block.super }}
+    {% load static %}
+    <link href="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block contenido %}
+    <div class="card card-box">
+        <div class="card-head">
+            <header>
+                Recursos para la evaluación de los espacios físicos
+            </header>
+            <div class="tools">
+                {% if perms.edificaciones.add_recurso %}
+                    <a data-url="{% url 'edificaciones:recurso_crear' %}"
+                       data-modal-titulo="Crear recurso"
+                       data-size="modal-lg"
+                       class="btn btn-info btn-xs abrir-modal-editar">
+                        <i class="fa fa-plus-circle"></i> Nuevo
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body ">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Filtro por activo: </label>
+                        <select id="filtro_activo" class="form-control form-control-sm">
+                            <option value="" selected>--Todos--</option>
+                            <option value="true">Activos</option>
+                            <option value="false">Inactivos</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table full-ancho" id="tabla-recurso">
+                                <thead>
+                                    <tr>
+                                        <th>Orden</th>
+                                        <th>Nombre</th>
+                                        <th>Activo</th>
+                                        <th>Numero Items</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var url_recurso_lista = "{% url 'edificaciones:recurso_lista' %}";
+        var url_recurso_detalle = "{% url 'edificaciones:recurso_detalle' 0 %}";
+    </script>
+
+    <script src="{% static 'js/js_cookie.js' %}"></script>
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js' %}"></script>
+
+    <script src="{% static 'js/edificaciones/recurso_lista.js' %}?v=1.1"></script>
+{% endblock %}

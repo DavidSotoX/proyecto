@@ -1,0 +1,22 @@
+{% extends "fragmentos/sidebar.html" %}
+
+{% load usuario_tags %}
+{% load actividad_tags %}
+
+{% block funcionalidades_modulo %}
+    <li class="nav-item">
+        <a href="{% url 'index' %}" class="nav-link nav-toggle">
+            <i class="fa fa-arrow-left"></i> <span class="title">Menú Principal</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'edificaciones:index' %}" class="nav-link nav-toggle">
+            <i class="fa fa-tachometer"></i> <span class="title">Tablero</span>
+        </a>
+    </li>
+
+    {% get_menu_modulo request.user 'edificaciones' as funcionalidades %}
+    {% for funcionalidad in funcionalidades %}
+        {% include 'fragmentos/funcionalidad.html' %}
+    {% endfor %}
+{% endblock funcionalidades_modulo %}

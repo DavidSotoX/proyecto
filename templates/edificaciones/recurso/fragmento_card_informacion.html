@@ -1,0 +1,22 @@
+<div class="card card-box">
+    <div class="card-head">
+        <header>Recurso:  {{ recurso.orden }}. {{ recurso.nombre }}</header>
+        <div class="tools">
+        {% if perms.edificaciones.change_recurso %}
+            <button title="Editar recurso" class="btn btn-xs btn-success abrir-modal-editar"
+                    data-url="{% url 'edificaciones:recurso_editar' recurso.id %}"
+                    data-size="modal-lg"
+                    data-modal-titulo="Editar recurso">
+                <i class="fa fa-edit"></i>
+            </button>
+        {% endif %}
+
+        {% if perms.edificaciones.delete_recurso %}
+            <a title="Eliminar recurso" class="btn btn-xs btn-danger"
+                href="{% url 'edificaciones:recurso_eliminar' recurso.id %}">
+                <i class="fa fa-trash"></i>
+            </a>
+        {% endif %}
+        </div>
+    </div>
+</div>

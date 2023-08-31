@@ -1,0 +1,53 @@
+<fieldset class="fieldset" style="height: 95%">
+    <legend class="text-primary">
+        <h5><i class="fa fa-building"></i> Subambientes del espacio físico
+            {% if puede_editar %}
+                 <button data-url="{% url 'edificaciones:subambiente_crear' ambienteuso.id %}"
+                     data-modal-titulo="Nuevo subambiente"
+                     data-size="modal-lg"
+                     class="btn btn-info btn-xs abrir-modal-editar">
+                    <i class="fa fa-plus-circle"></i> Nuevo
+                 </button>
+             {% endif %}
+        </h5>
+    </legend>
+    <div class="table-responsive">
+        <table class="table full-ancho">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th class="tabla-accion"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subambiente in ambienteuso.subambientes.all %}
+                    <tr>
+                        <td>{{ subambiente.codigo }} <i class="fa fa-arrow-right"></i> {{ subambiente.nombre }}</td>
+                        <td class="tabla-accion">
+                            <div class="btn-group">
+                                {% if puede_editar %}
+                                    <button data-url="{% url 'edificaciones:subambiente_editar' subambiente.id %}"
+                                       title="Editar subambiente"
+                                       data-modal-titulo="Editar subambiente"
+                                       data-size="modal-lg"
+                                       class="btn btn-info btn-xs abrir-modal-editar">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+
+                                    <a href="{% url 'edificaciones:subambiente_eliminar' subambiente.id %}"
+                                       class="btn btn-danger btn-xs" title="Eliminar subambiente">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td>No existe información a mostrar</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</fieldset>
